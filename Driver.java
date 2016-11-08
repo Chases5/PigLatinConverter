@@ -8,18 +8,38 @@ public class Driver {
 		HashMap<String, Integer> map = getMap();
 		while(true){
 			String convert = input.nextLine();
-			convert.toLowerCase();
+			convert = convert.toLowerCase();
+			convert = convert.replaceAll("\\s", " ");
 			if(convert.equals("exit")){
 				break;
 			}
 			if(convert.equals("")){
 				continue;
 			}
-			pigConvert(convert,map);
+			handleString(convert, map);
 		}
 		input.close();
 	}
-	public static void pigConvert(String in, HashMap<String,Integer> map){
+	
+	public static void handleString(String in, HashMap<String, Integer> map){
+		String buffer = "Converted: ";
+		String[] sentence = in.split(" ");
+		for(String s : sentence){
+			if(!map.containsKey(s.substring(s.length()-1))){
+				String temp = s.substring(s.length()-1);
+				buffer += pigConvert(s.substring(0,s.length()-2),map);
+				buffer += temp;
+			}
+			else{
+				buffer += pigConvert(s, map);
+				
+			}
+			buffer += " ";
+		}
+		System.out.println(buffer);
+	}
+	
+	public static String pigConvert(String in, HashMap<String,Integer> map){
 		String printVal = "";
 		if(map.get(in.substring(0,1)) == 0){ // vowel
 			printVal += in;
@@ -30,11 +50,11 @@ public class Driver {
 			printVal += in.substring(0,1);
 			printVal += "ay";
 		}
-		System.out.println(printVal);
+		return printVal;
 	}
 	
 	public static HashMap<String,Integer> getMap(){
-		HashMap<String,Integer> map = new HashMap<String, Integer>();
+		HashMap<String,Integer> map = new HashMap<>();
 		for(char i = 'a'; i <= 'z'; i++){
 			if(i == 'a' || i == 'e' || i == 'i' || i == 'o' || i == 'u' || i =='y')
 			{
