@@ -13,7 +13,7 @@ public class Driver {
 			if(convert.equals("exit")){
 				break;
 			}
-			if(convert.equals("")){
+			if(convert.equals("") || convert.equals(" ")){
 				continue;
 			}
 			handleString(convert, map);
